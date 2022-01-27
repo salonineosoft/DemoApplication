@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Configration extends Model
 {
+    protected $table = 'configrations';
     use HasFactory;
 }

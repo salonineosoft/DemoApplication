@@ -21,6 +21,9 @@
             @if(Session::has('msg'))
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
+            @if(Session::has('err'))
+                <label class="alert alert-danger col-9 mx-auto">{{Session::get('err')}}</label>
+            @endif
             @if($errors->has('code'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('code')}}</div>
             @endif
@@ -46,12 +49,12 @@
             <div class="radio-btn">
             <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="status"  value="{{$data->status}}"  {{($data->status =="active")?'checked':''}}>active
+                    <input type="radio" class="form-check-input" name="status"   value="active"  {{($data->status =="active")?'checked':''}}>active
                 </label>
             </div>
            <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="status" value="inactive" {{($data->status =="inactive")?'checked':''}}>inactive
+                    <input type="radio" class="form-check-input" name="status"  value="inactive" {{($data->status =="inactive")?'checked':''}}>inactive
                 </label>
            </div>
             </div>

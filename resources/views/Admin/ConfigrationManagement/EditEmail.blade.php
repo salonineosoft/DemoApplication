@@ -19,16 +19,19 @@
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
           
-            @if($errors->has('email'))
-                <div class="alert alert-danger col-9 mx-auto">{{$errors->first('email')}}</div>
+            @if($errors->has('notification_email'))
+                <div class="alert alert-danger col-9 mx-auto">{{$errors->first('notification_email')}}</div>
             @endif
             <div class="form-group">
-                <input type="email" class="form-control col-9  mx-auto" value="{{$data->email}}" name="email"  placeholder="Email">
+                <input type="email" class="form-control col-9  mx-auto" value="{{$data->notification_email}}" name="notification_email"  placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control col-9  mx-auto" value="{{$data->mobile_number}}" name="mobile_number"  placeholder="Mobile Number">
             </div>
             <input type="hidden" name="uid" value="{{$data->id}}"/>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary text-center" value="Upadte" >
-            </div>s
+            </div>
             </form>
     </div>
 </div>

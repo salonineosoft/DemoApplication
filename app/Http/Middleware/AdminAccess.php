@@ -17,9 +17,9 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->role_id = 2){
+        if (Auth::user() && Auth::user()->role_id == 2){
             return $next($request);
         }
-        return response()->json("you can not access this page");
+        return back()->with('err','You can not access this Page.');
     }
 }

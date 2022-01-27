@@ -28,21 +28,21 @@ class HomeController extends Controller
      */
     public function index()
     {     
-        // $data                           = [];
-        // $data['totalActiveCategory']    = category::where('status','active')->count();
-        // $data['totalInactiveCategory']  = category::where('status','inactive')->count();
-        // $data['totalActiveCoupons']     = coupon::where('status','active')->count();
-        // $data['totalInactiveCoupons']   = coupon::where('status','inactive')->count();
-        // $data['totalActiveUser']        = user::where('status','active')->count();
-        // $data['totalInactiveUser']      = user::where('status','inactive')->count();
-        // $data['totalActiveProduct']     = product::where('status','active')->count();
-        // $data['totalInactiveProduct']   = product::where('status','inactive')->count();
-        // if ($data) {
-            //return view('Admin/AdminDash',$data);
-           // return $data;
-        //}
-        //return 0; 
-        return view('dashboard');
+        $data                           = [];
+        $data['totalActiveCategory']    = category::where('status','active')->count();
+        $data['totalInactiveCategory']  = category::where('status','inactive')->count();
+        $data['totalActiveCoupons']     = coupon::where('status','active')->count();
+        $data['totalInactiveCoupons']   = coupon::where('status','inactive')->count();
+        $data['totalActiveUser']        = user::where('status','active')->count();
+        $data['totalInactiveUser']      = user::where('status','inactive')->count();
+        $data['totalActiveProduct']     = product::where('status','active')->count();
+        $data['totalInactiveProduct']   = product::where('status','inactive')->count();
+        if ($data) {
+            return view('Admin/AdminDash',$data);
+           return $data;
+        }
+        return 0; 
+       // return view('dashboard');
         // if(Auth::User()->role_id==2){
         //     return view('dashboard');
         // }

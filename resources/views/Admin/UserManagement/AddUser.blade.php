@@ -20,20 +20,20 @@
             @if(Session::has('msg'))
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
-            @if(Session::has('err'))
-                <label class="alert alert-danger col-9 mx-auto">{{Session::get('err')}}</label>
+            @if(Session::has('error'))
+                <label class="alert alert-danger col-9 mx-auto">{{Session::get('error')}}</label>
             @endif
             @if($errors->has('name'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('name')}}</div>
             @endif
             <div class="form-group">
-                <input type="text" class="form-control col-9 mx-auto" name="name"  placeholder="First_Name">
+                <input type="text" class="form-control col-9 mx-auto" name="name"  placeholder="First Name">
             </div>
             @if($errors->has('lastName'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('lastName')}}</div>
             @endif
             <div class="form-group">
-                <input type="text" class="form-control col-9  mx-auto" name="lastName"  placeholder="Last_Name">
+                <input type="text" class="form-control col-9  mx-auto" name="lastName"  placeholder="Last Name">
             </div>
             @if($errors->has('email'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('email')}}</div>
@@ -75,7 +75,7 @@
             </div>
             </div><br>
             <div class="form-group">
-            <input type="submit" class="btn btn-primary text-center" value="submit" >
+            <input type="submit" class="btn btn-primary text-center" value="Submit" >
             </div>
         </form>
     </div>

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\File;
 namespace App\Http\Controllers\Admin;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Models\productImage;
 use App\Models\product;

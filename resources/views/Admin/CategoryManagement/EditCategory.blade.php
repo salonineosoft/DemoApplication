@@ -39,12 +39,12 @@
             <div class="radio-btn">
             <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="status"  value="{{$data->status}}"  {{($data->status =="active")?'checked':''}}>active
+                    <input type="radio" class="form-check-input" name="status"  value="active"  {{($data->status =="active")?'checked':''}}>active
                 </label>
             </div>
            <div class="form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="status" value="inactive" {{($data->status =="inactive")?'checked':''}}>inactive
+                    <input type="radio" class="form-check-input" name="status"  value="inactive" {{($data->status =="inactive")?'checked':''}}>inactive
                 </label>
            </div>
             </div>

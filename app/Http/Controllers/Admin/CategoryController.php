@@ -16,6 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data = category::paginate(5);
+      
         return view('Admin.CategoryManagement.ShowCategory', compact('data'));
        
     }
@@ -38,20 +39,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validateCategory = $request->validate([
-            'name'        => 'required|unique:categories',
-            'description' => 'required|max:300',
-            'status'      => 'required'
-        ]);
-
-        if ($validateCategory) {
-            $name        = $request->name;
-            $description = $request->description;
-            $status      = $request->status;
-            $data        = new category();
+        try{
+            $validateCategory = $request->validate([
             
-            try{
-                /*store value*/
+                'name'        => 'required|unique:categories',
+                'description' => 'required|max:300',
+                'status'      => 'required'
+            ]);
+
+            if ($validateCategory) {
+                $name        = $request->name;
+                $description = $request->description;
+                $status      = $request->status;
+                $data        = new category();
+                
+            
+                    /*store value*/
                 $data->name        = $name;
                 $data->description = $description;
                 $data->status      = $status;  
@@ -59,10 +62,10 @@ class CategoryController extends Controller
                 /*save data*/
                 $data->save();
                 return back()->with('msg','Successfully inserted');
-            } catch (Exception $e) {  
-                return back()->with('error','something went wrong');
-            } 
-        }
+            }
+        } catch (Exception $e) {  
+            return back()->with('error','something went wrong');
+        } 
     }
 
     /**
@@ -86,12 +89,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatecategory = $request->validate([
-            'name'        => 'required',
-            'description' => 'required',
-            'status'      => 'required'
-        ]);
         try{
+            $validatecategory = $request->validate([
+                'name'        => 'required',
+                'description' => 'required',
+                'status'      => 'required'
+            ]);
+            
             if ($validatecategory) {
                 $data= category::where('id',$request->uid)->update([
                     'name'        => $request->name,

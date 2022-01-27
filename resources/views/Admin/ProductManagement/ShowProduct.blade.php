@@ -2,7 +2,7 @@
 @section('content1')
  <style>
   .btn{
-      float: right;
+    float: right;
   }    
   .AddProduct{
     color: white;

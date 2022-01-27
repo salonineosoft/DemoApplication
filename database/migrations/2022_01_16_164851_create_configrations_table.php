@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddProductIdToProductCategories extends Migration
+class CreateConfigrationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddProductIdToProductCategories extends Migration
      */
     public function up()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
-        $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+        Schema::create('configrations', function (Blueprint $table) {
+            $table->id();
+            $table->string('notification_email');
+            $table->string('mobile_number');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddProductIdToProductCategories extends Migration
      */
     public function down()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('configrations');
     }
 }

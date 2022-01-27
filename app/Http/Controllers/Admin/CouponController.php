@@ -37,29 +37,30 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        $validateCoupons = $request->validate([
-            'code'   => 'required|unique:coupons',
-            'type'   => 'required',
-            'value'  => 'required|numeric',
-            'status' => 'required'
-        ]);
+        try{
+            $validateCoupons = $request->validate([
+                'code'   => 'required|unique:coupons',
+                'type'   => 'required',
+                'value'  => 'required|numeric',
+                'status' => 'required'
+            ]);
             if ($validateCoupons) {
                 $code   = $request->code;
                 $type   = $request->type;
                 $value  = $request->value;
                 $status = $request->status;
                 $data   = new coupon();
-            try{
+            
                 /* value store in data*/
                 $data->code   = $code;
                 $data->type   = $type;
                 $data->value  = $value;
                 $data->status = $status;
                 $data->save(); 
-                return back()->with('msg','successfully added');
-            } catch (Exception $e) {
-                return back()->with('err','uploading error');
+                return back()->with('msg','successfully added'); 
             }
+        } catch (Exception $e) {
+            return back()->with('err','Something went wrong');
         }
     }
 
@@ -84,13 +85,14 @@ class CouponController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validateCoupon = $request->validate([
-            'code'   => 'required',
-            'value'  => 'required',
-            'status' => 'required',
-            'type'   => 'required'
-        ]);
         try{
+            $validateCoupon = $request->validate([
+                'code'   => 'required',
+                'value'  => 'required',
+                'status' => 'required',
+                'type'   => 'required'
+            ]);
+       
             if ($validateCoupon) {
                 $data= coupon::where('id',$request->uid)->update([
                     'code'   => $request->code,
@@ -98,10 +100,10 @@ class CouponController extends Controller
                     'status' => $request->status,
                     'type'   => $request->type
                 ]);
-                return back()->with('msg','successfully updated data');
+                return back()->with('msg',' Coupon code successfully updateded.');
             }
         } catch (Exception $e) {
-            return back()->with('err','uploading error');
+            return back()->with('err','Something went wrong.');
         }
     }
 

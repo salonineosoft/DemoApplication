@@ -38,38 +38,37 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        $validatebanner =   $request->validate([
-            'image'       => 'required|mimes:jpg,png,jpeg',
-            'title'       => 'required|max:10',
-            'description' => 'required|max:20'
-        ]);
-        if($validatebanner) {
-            $title = $request->title;
-            $description = $request->description;
-            $status = "active";
-            if($request->status) {
-                $status = $request->status;
-            }
-            $filename="Image-".time().".".$request->image->extension();
-            if($request->image->move(public_path('uploads'),$filename)){
-                $data              = new banner();
-            try{
-                $data->title       = $title;
-                $data->description = $description;
-                $data->status      = $status;
-                $data->image       = $filename;
+        try{
+            $validatebanner =   $request->validate([
+                'image'       => 'required|mimes:jpg,png,jpeg',
+                'title'       => 'required|max:500',
+                'description' => 'required|max:500'
+            ]);
+            if($validatebanner) {
+                $title = $request->title;
+                $description = $request->description;
+                $status = "active";
+                if($request->status) {
+                    $status = $request->status;
+                }
+                $filename="Image-".time().".".$request->image->extension();
+                if($request->image->move(public_path('uploads'),$filename)){
+                    $data              = new banner();
             
-                $data->save();
+                    $data->title       = $title;
+                    $data->description = $description;
+                    $data->status      = $status;
+                    $data->image       = $filename;        
+                    $data->save();
                     return back()->with('msg','successfully inserted data');
-            } catch (Exception $e) {
+                } else {
                     return back()->with('err','something went wrong');
                 }
-            } else {
-                   return back()->with('err','something went wrong');
             }
+        } catch (Exception $e) {
+            return back()->with('err','something went wrong');
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -91,26 +90,30 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $filename = $request->file('image');
-        if ($filename) {
-            $filename="Image-".time().".".$request->image->extension();
-            if ($request->image->move(public_path('uploads'),$filename)) {
-                $data= banner::where('id',$request->uid)->update([
+        try{
+            $filename = $request->file('image');
+            if ($filename) {
+                $filename="Image-".time().".".$request->image->extension();
+                if ($request->image->move(public_path('uploads'),$filename)) {
+                    $data= banner::where('id',$request->uid)->update([
+                        'title'       => $request->title,
+                        'description' => $request->description,
+                        'status'      => $request->status,
+                        'image'       => $filename
+                    ]);
+                }
+                return redirect('/banners');
+            } else {
+                $data= banner::where('id',$request->uid)->update([ 
                     'title'       => $request->title,
                     'description' => $request->description,
                     'status'      => $request->status,
-                    'image'       => $filename
                 ]);
             }
-            return redirect('/banners');
-        } else {
-            $data= banner::where('id',$request->uid)->update([ 
-                'title'       => $request->title,
-                'description' => $request->description,
-                'status'      => $request->status,
-            ]);
-        }
-        return back()->with('msg','successfully updated data');
+            return back()->with('msg','successfully updated data'); 
+        } catch(Exception $e) {  
+            return back()->with('error','something went wrong');
+        } 
     }
     
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminControl;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Configration;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,7 @@ Route::get('/dashboard', function () {
 
 
  
- //Route::middleware([admin::class])->group(function(){
+ Route::middleware([admin::class])->group(function(){
  Route::namespace('App\Http\Controllers\Admin')->group(function(){ 
  Route::resource('categories', CategoryController::class)->except('show');
  Route::resource('banners', BannerController::class)->except('show');
@@ -44,12 +45,12 @@ Route::get('/dashboard', function () {
  Route::resource('products', ProductController::class)->except('show');
  Route::get('Image/{id}', [ImageController::class,'image']);
  Route::resource('configrations', ConfigrationController::class);
- 
+ Route::resource('cms', 'CmsController');
 
-//});
- 
- });
- //Route::get('/AdminDash',[AdminControl::class,'countActiveCategory']);
+});
+Route::get('/ShowOrder', [OrderController::class,'order']);
+});
+ //Route::get('',[AdminControl::class,'countActiveCategory']);
 //Route::get('Image/{id}',[ImageController::class,'image']);
 
  

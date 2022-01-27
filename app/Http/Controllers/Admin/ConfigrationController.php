@@ -62,11 +62,13 @@ class ConfigrationController extends Controller
     public function update(Request $request, $id)
     {
         $validateEmail = $request->validate([
-            'email'        => 'required',
+            'notification_email'  => 'required',
+            'mobile_number'       => 'required',
         ]);
         if ($validateEmail) {
             $data= Configration::where('id',$request->uid)->update([
-                'email'        => $request->email,
+                'notification_email'        => $request->notification_email,
+                'mobile_number'             => $request->mobile_number,
             ]);
         }
        return back()->with('msg','successfully updated data');

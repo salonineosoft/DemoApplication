@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = user::where('email','!=','admin@gmail.com')->paginate(5);
+        $data = user::paginate(5);
         return view('Admin.UserManagement.showuser',compact('data'));
     }
 
@@ -40,38 +40,39 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validateuser = $request->validate([
-            'name'            => 'required',
-            'lastName'        => 'required',
-            'email'           => 'required|unique:users',
-            'password'        => 'required|max:12|min:8',
-            'ConfirmPassword' => 'required|same:password',
-            'role'            => 'required',
-            'status'          => 'required'
-       ]);
-       if ($validateuser){
-            $name            = $request->name;
-            $lastName        = $request->lastName;
-            $email           = $request->email;
-            $password        = $request->password;
-            $ConfirmPassword = $request->ConfirmPassword;
-            $role            = $request->role;
-            $status          = $request->status; 
-            $data            = new User();
         try{
-            /*store data*/
-            $data->first_name = $name;
-            $data->last_name  = $lastName;
-            $data->email      = $email;
-            $data->password   = $password;
-            $data->role_id    = $role;
-            $data->status     = $status;
-            $data->save();
-                return back()->with('msg','successfully added');
-        } catch (Exception $e) {
-                return back()->with('err','uploading error');
-            }
-        }
+            $validateuser = $request->validate([
+                'name'            => 'required',
+                'lastName'        => 'required',
+                'email'           => 'required',
+                'password'        => 'required|max:20',
+                'ConfirmPassword' => 'required|same:password',
+                'role'            => 'required',
+                'status'          => 'required'
+            ]);
+            if ($validateuser){
+                $name            = $request->name;
+                $lastName        = $request->lastName;
+                $email           = $request->email;
+                $password        = $request->password;
+                $ConfirmPassword = $request->ConfirmPassword;
+                $role            = $request->role;
+                $status          = $request->status; 
+                $data            = new User();
+            
+                /*store data*/
+                $data->first_name = $name;
+                $data->last_name  = $lastName;
+                $data->email      = $email;
+                $data->password   = $password;
+                $data->role_id    = $role;
+                $data->status     = $status;
+                $data->save();
+                return back()->with('msg','successfully inserted data');
+            } 
+        } catch(Exception $e) {  
+            return back()->with('error','something went wrong');
+        } 
     }
 
     /**
@@ -96,26 +97,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validateUser = $request->validate([
-            'name'     => 'required|max:10',
-            'lastName' => 'required|max:10',
-            'email'    => 'required',
-            'status'   => 'required'
-        ]);
         try{
-            if ($validateUser) {
-                $data= user::where('id',$request->uid)->update([
-                    'first_name' => $request->name,
-                    'last_name'  => $request->lastName,
-                    'email'      => $request->email,
-                    'status'     => $request->status
-                ]);
-                return back()->with('msg','successfully updated data');
+            $validateUser = $request->validate([
+                'name'     => 'required|max:10',
+                'lastName' => 'required|max:10',
+                'email'    => 'required',
+                'status'   => 'required'
+            ]);
+                if ($validateUser) {
+                    $data= user::where('id',$request->uid)->update([
+                        'first_name' => $request->name,
+                        'last_name'  => $request->lastName,
+                        'email'      => $request->email,
+                        'status'     => $request->status
+                    ]);
+                    return back()->with('msg','successfully updated data');
+                }
+            } catch(Exception $e) {
+                return back()->with('err','something went wrong');
             }
-        } catch(Exception $e) {
-            return back()->with('err','something went wrong');
-        }
-       
+        
     }
 
     /**

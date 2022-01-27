@@ -9,6 +9,8 @@ use App\Models\product;
 use App\Models\product_category;
 use App\Models\productImage;
 use App\Models\product_attribute;
+use Exception;
+
 class ProductController extends Controller
 {
     /**
@@ -41,55 +43,59 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validateProduct = $request->validate([
-            'name'        => 'required',
-            'description' => 'required',
-            'quantity'    => 'required|numeric',
-            'price'       => 'required|numeric',
-            'sale_price'  => 'required|numeric',
-            'status'      => 'required'
-        ]);
- 
-        if ($validateProduct) {
-            $name         = $request->name;
-            $description  = $request->description;
-            $quantity     = $request->quantity;
-            $price        = $request->price;
-            $sale_price   = $request->sale_price;
-            $productInsertId        = DB::table('Products')->insertGetId([
-                
-               'name'       => $name,
-               'description' => $description,
-               'quantity'    => $quantity,
-               'price'       => $price,
-               'sale_price'  => $sale_price,
-               'status'      => $request->status,
-            ]);    
-             if ($productInsertId) {
-                $productAttributeId  = Product_attribute::insertGetId([
+        try{
+            $validateProduct = $request->validate([
+                'name'        => 'required',
+                'description' => 'required',
+                'quantity'    => 'required|numeric',
+                'price'       => 'required|numeric',
+                'sale_price'  => 'required|numeric',
+                'status'      => 'required'
+            ]);
+
+            if ($validateProduct) {
+                $name         = $request->name;
+                $description  = $request->description;
+                $quantity     = $request->quantity;
+                $price        = $request->price;
+                $sale_price   = $request->sale_price;
+                $productInsertId        = DB::table('Products')->insertGetId([
+                    
                     'name'       => $name,
-                    'price'      => $price,
-                    'quantity'   => $quantity,
-                    'product_id' => $productInsertId
-                ]);   
-                if ( $productAttributeId && $request->hasFile('image')) {
-                    $images = $request->file('image');
-                    foreach ($images as $i) {
-                        $name = rand() . $i->getClientOriginalName();
-                        if ($i->move(public_path('uploads/'), $name)) {
-                            ProductImage::insert([
-                                'image'      => $name,
-                                'product_id' => $productInsertId,
-                            ]);
+                    'description' => $description,
+                    'quantity'    => $quantity,
+                    'price'       => $price,
+                    'sale_price'  => $sale_price,
+                    'status'      => $request->status,
+                ]);    
+                    if ($productInsertId) {
+                    $productAttributeId  = Product_attribute::insertGetId([
+                        'name'       => $name,
+                        'price'      => $price,
+                        'quantity'   => $quantity,
+                        'product_id' => $productInsertId
+                    ]);   
+                    if ( $productAttributeId && $request->hasFile('image')) {
+                        $images = $request->file('image');
+                        foreach ($images as $i) {
+                            $name = rand() . $i->getClientOriginalName();
+                            if ($i->move(public_path('uploads/'), $name)) {
+                                ProductImage::insert([
+                                    'image'      => $name,
+                                    'product_id' => $productInsertId,
+                                ]);
+                            }
                         }
                     }
-                }
-           }  
-            DB::table('product_categories')->insert([
-                'category_id' => $request->category,
-                'product_id'  => $productInsertId,
-            ]);
-            return back()->with('msg','successfully inserted data');
+                }  
+                DB::table('product_categories')->insert([
+                    'category_id' => $request->category,
+                    'product_id'  => $productInsertId,
+                ]);
+                return back()->with('msg','successfully inserted data');
+            } 
+        } catch(Exception $e) {
+            return back()->with('err','Something went wrong.');
         }  
        
     }  
@@ -118,42 +124,46 @@ class ProductController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $data = product::where('id',$request->uid)->update([
-            'name'         => $request->name,
-            'description'  => $request->description,
-            'quantity'     => $request->quantity,
-            'price'        => $request->price,
-            'sale_price'   => $request->sale_price,
-            'status'       => $request->status
-        ]);
-        if($data){
-            product_attribute::where('product_id',$request->uid)->update([
-               'name'       => $request->name,
-               'price'      => $request->price,
-               'quantity'   => $request->quantity,
+        try{
+            $data = product::where('id',$request->uid)->update([
+                'name'         => $request->name,
+                'description'  => $request->description,
+                'quantity'     => $request->quantity,
+                'price'        => $request->price,
+                'sale_price'   => $request->sale_price,
+                'status'       => $request->status
             ]);
-            product_category::where('product_id',$request->uid)->update([
-                'category_id' => $request->category,
-            ]);
-            if($request->hasFile('image')) {
-                $deleteImage = productImage::where('product_id',$request->uid)->get();
-                foreach ($deleteImage as $i) {
-                    unlink("uploads/" .$i->image);
+            if($data){
+                product_attribute::where('product_id',$request->uid)->update([
+                'name'       => $request->name,
+                'price'      => $request->price,
+                'quantity'   => $request->quantity,
+                ]);
+                product_category::where('product_id',$request->uid)->update([
+                    'category_id' => $request->category,
+                ]);
+                if($request->hasFile('image')) {
+                    $deleteImage = productImage::where('product_id',$request->uid)->get();
+                    foreach ($deleteImage as $i) {
+                        unlink("uploads/" .$i->image);
+                    }
+                    productImage::where('product_id',$request->uid)->delete();
+                    $images = $request->file('image');
+                    foreach ($images as $i) {
+                        $name = rand() . $i->getClientOriginalName();
+                        $i->move(public_path('uploads/'), $name);
+                        ProductImage::insert([
+                            'image'      => $name,
+                            'product_id' => $request->uid,
+                        ]);
+                    }
+                
                 }
-                productImage::where('product_id',$request->uid)->delete();
-                $images = $request->file('image');
-                foreach ($images as $i) {
-                    $name = rand() . $i->getClientOriginalName();
-                    $i->move(public_path('uploads/'), $name);
-                    ProductImage::insert([
-                        'image'      => $name,
-                        'product_id' => $request->uid,
-                    ]);
-                }
-              
             }
+            return back()->with('msg','successfully updated data');
+        } catch(Exception $e) {
+            return back()->with('err','Something went wrong.');
         }
-        return back()->with('msg','successfully updated data');
     }
 
 

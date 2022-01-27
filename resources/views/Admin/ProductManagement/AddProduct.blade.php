@@ -85,7 +85,7 @@
                 <input type="file" name="image[]"multiple>
             </div><br>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary text-center" value="submit" >
+                <input type="submit" class="btn btn-primary text-center" value="Submit" >
             </div>
             </form>
     </div>
