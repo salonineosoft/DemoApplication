@@ -8,26 +8,26 @@
 </head>
 <body>  
     <table class="table">
-    <tr>
-      <th>Name</th>
-      <td>{{$name}}</td>
-    </tr>
+  <h3>Thankyou For Shopping</h3>
+  <p>Have a nice day</p>
+  <h2>Your Order Details</h2>
     <tr>
     <th>email</th>
-    <td>{{$email}}</td>
+    <td>{{$user_email}}</td>
     </tr>
-   <tr>
-   <th>Password</th>
-   <td>{{$password}}</td>
-   </tr>
-   <tr>
-   <th>Price</th>
-   <td>{{$price}}</td>
-   </tr>
-   <tr>
-   <th>Quantity</th>
-   <td>{{$quantity}}</td>
-   </tr>
+    <tr>
+      <th>Price</th>
+      <td>{{$price}}</td>
+    </tr>
+    <tr>
+      <th>Quantity</th>
+      <td>{{$quantity}}</td>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <td>{{$total}}</td>
+    </tr>
+  
   </tbody>
 </table>
 

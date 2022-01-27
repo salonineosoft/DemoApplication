@@ -24,6 +24,7 @@ class orderDetailController extends Controller
             "product_id"  => $request->product_id,
             "price"       => $request->price,
             "quantity"    => $request->quantity,
+            "image"       => $request->image,
             "total"       => $request->total
         ]);
 

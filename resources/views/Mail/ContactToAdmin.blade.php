@@ -16,6 +16,13 @@
     <th>email</th>
     <td>{{$email}}</td>
     </tr>
+     <tr>
+    <th>Mobile Number</th>
+    <td>{{$mobile_number}}</td>
+    </tr> 
+   
+   
+
 
    
   </tbody>

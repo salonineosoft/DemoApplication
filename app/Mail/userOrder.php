@@ -32,11 +32,10 @@ class userOrder extends Mailable
         $data=$this->data;
         return $this->from('example@example.com', 'Example')
                 ->view('Mail.userOrder')->with([
-                    'name'     => $data['first_name']." ".$data['last_name'],        
-                    'email'    => $data['email'],
-                    'password' => $data['password'],
-                    'price'    => $data['price'],
-                    'quantity' => $data['quantity']
+                    'user_email'    => $data['user_email'],
+                    'price'      => $data['price'],
+                    'quantity'   => $data['quantity'],
+                    'total'      => $data['total'],
 
                 ]);
     }

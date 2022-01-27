@@ -9,21 +9,22 @@
 <body> 
     <table class="table">
     <tr>
-      <th>Name</th>
-      <td>{{$name}}</td>
-    </tr>
-    <tr>
-      <th>Message</th>
-      <td>{{$name}}</td>
-    </tr>
-    <tr>
-      <th>Mobile Number</th>
-      <td>{{$mobile_number}}</td>
-    </tr>
-    <tr>
     <th>email</th>
-    <td>{{$email}}</td>
+    <td>{{$user_email}}</td>
     </tr>
+      <tr>
+      <th>Price</th>
+      <td>{{$price}}</td>
+    </tr>
+     <tr>
+    <th>Quantity</th>
+    <td>{{$quantity}}</td>
+    </tr>
+    <tr>
+    <th>Total</th>
+    <td>{{$total}}</td>
+    </tr>
+    
   </tbody>
 </table>
 

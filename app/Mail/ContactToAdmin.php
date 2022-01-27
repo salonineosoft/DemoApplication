@@ -34,9 +34,8 @@ class ContactToAdmin extends Mailable
                 ->view('Mail.ContactToAdmin')->with([
                     'name'          => $data['name'],        
                     'email'         => $data['email'],
-                    'message'       => $data['message'],
                     'mobile_number' => $data['mobile_number'],
-                    
+                   
                 ]);
     }
 }

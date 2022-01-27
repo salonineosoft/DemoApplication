@@ -10,7 +10,7 @@
     <table class="table">
     <tr>
       <th>Name</th>
-      <td>{{$name}}</td>
+      <td>{{$first_name}}</td>
     </tr>
     <tr>
     <th>email</th>
