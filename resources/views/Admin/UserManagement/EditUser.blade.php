@@ -21,8 +21,8 @@
             @if(Session::has('msg'))
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
-            @if(Session::has('err'))
-                <label class="alert alert-danger col-9 mx-auto">{{Session::get('err')}}</label>
+            @if(Session::has('error'))
+                <label class="alert alert-danger col-9 mx-auto">{{Session::get('error')}}</label>
             @endif
             @if($errors->has('name'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('name')}}</div>

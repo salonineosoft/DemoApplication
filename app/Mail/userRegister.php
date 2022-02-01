@@ -33,8 +33,8 @@ class userRegister extends Mailable
         return $this->from('example@example.com', 'Example')
                 ->view('Mail.userRegister')->with([
                     'first_name' => $data['first_name']." ".$data['last_name'],              
-                    'email' => $data['email'],
-                    'password'=>$data['password']
+                    'email'      => $data['email'],
+                    'password'   => $data['password']
                 ]);
     }
 }

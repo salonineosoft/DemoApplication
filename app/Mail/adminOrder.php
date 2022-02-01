@@ -32,8 +32,6 @@ class adminOrder extends Mailable
         $data=$this->data;
         return $this->from('example@example.com', 'Example')
                 ->view('Mail.adminOrder')->with([
-                    // 'name' => $data['first_name']." ".$data['last_name'],
-                    
                     'user_email' => $data['user_email'],
                     'price'      => $data['price'],
                     'quantity'   => $data['quantity'],

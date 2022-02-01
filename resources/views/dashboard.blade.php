@@ -162,7 +162,7 @@
             <a href="/ShowOrder" class="nav-link text-success">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Show-Order
+                Order Management
               </p>
             </a>
           </li>
@@ -176,6 +176,35 @@
                Email-Configration
               </p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Reports
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="CouponChart" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Coupons Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="UserChart" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="Charts" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sales Report</p>
+                </a>
+              </li>
+            </ul>
           </li>
               </ul>
       </nav>

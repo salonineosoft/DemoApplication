@@ -7,6 +7,8 @@ use App\Http\Controllers\Configration;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Main;
+use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\PdfController;
 use App\Models\category;
 use Illuminate\Database\Eloquent\Model;
 //use GuzzleHttp\Psr7\Request;
@@ -44,14 +46,19 @@ Route::get('/dashboard', function () {
  Route::resource('coupons', CouponController::class)->except('show');
  Route::resource('products', ProductController::class)->except('show');
  Route::get('Image/{id}', [ImageController::class,'image']);
- Route::resource('configrations', ConfigrationController::class);
- Route::resource('cms', 'CmsController');
-
+ Route::resource('configrations', ConfigrationController::class)->except('store','destroy');
+ Route::resource('cms', 'CmsController')->except('show');
+ Route::get('/Charts',[ChartController::class,'salesReport']);
+ Route::get('/UserChart',[ChartController::class,'userReport']);
+ Route::get('/CouponChart',[ChartController::class,'couponReport']);
+ Route::get('/EditOrder/{id}',[OrderController::class,'edit']);
+ Route::post('/UpdateOrder',[OrderController::class,'update']);
+ Route::get('/export_user_pdf', [PdfController::class,'export_user_pdf']);
+ Route::get('/view_user_pdf', [PdfController::class,'view_user_pdf']);
 });
+
 Route::get('/ShowOrder', [OrderController::class,'order']);
 });
- //Route::get('',[AdminControl::class,'countActiveCategory']);
-//Route::get('Image/{id}',[ImageController::class,'image']);
 
  
 

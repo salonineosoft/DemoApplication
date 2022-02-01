@@ -30,17 +30,6 @@ class ConfigrationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -67,21 +56,10 @@ class ConfigrationController extends Controller
         ]);
         if ($validateEmail) {
             $data= Configration::where('id',$request->uid)->update([
-                'notification_email'        => $request->notification_email,
-                'mobile_number'             => $request->mobile_number,
+                'notification_email' => $request->notification_email,
+                'mobile_number'      => $request->mobile_number,
             ]);
         }
-       return back()->with('msg','successfully updated data');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+       return redirect('/configrations')->with('msg','successfully updated data');
     }
 }

@@ -20,6 +20,10 @@ class JWTController extends Controller
     {
         $this->middleware('auth:api',['except'=>['login','register']]);
     }
+
+    /* Function For User-Register*/
+    /* inserting Data with Proper validations*/
+    /* After Successfully Registered it Will Recived Mail*/
     public function register(Request $request){
         $validator=Validator::make($request->all(),[
             'first_name'  => 'required|string',
@@ -43,11 +47,14 @@ class JWTController extends Controller
             Mail::to($request->email)->send(new userRegister($request->all()));
             Mail::to($request->email)->send(new adminRegister($request->all()));
             return response()->json([
-                'message'=>'User create successfully',
+                'message'=>'User Create Successfully',
                 'user'=>$user
             ],201);
         }
     }
+
+    /* Function For Login */
+
     public function login(Request $request){
         $validator=Validator::make($request->all(),[
             'email'    => 'required|string|email',
@@ -60,10 +67,12 @@ class JWTController extends Controller
             if(!$token=auth()->guard('api')->attempt($validator->validated())){
                return response()->json(['error'=>'user is Unauthorized,registerd first'],401);
             }
-           // return $this->respondWithToken($token);
            return response()->json(['access_token' => $token, "email" => $request->email], 200);
         }
     }
+
+    /* Function For Logout*/
+
     public function logout(){
         auth()->guard('api')->logout();
         return response()->json(["message"=>"User Logout Successfully"]);
@@ -72,42 +81,51 @@ class JWTController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-           'expires_in'=>auth()->guard('api')->factory()->getTTL()*60
+           'expires_in'    => auth()->guard('api')->factory()->getTTL()*60
         ]);
     }
+
+    /* Fuction For Refresh */
+
     public function refresh(){
         return $this->responseWithToken(auth()->guard('api')->refresh());
     }
+
     public function profile(){
         $profile=auth('api')->user();
         return response()->json(['profile'=>$profile]);
     }
+
+    /* Function For Update Profile */
     public function updateProfile(Request $request){
         $validator=Validator::make($request->all(),[
-            'first_name'=>'required|min:2|alpha',
-            'last_name'=>'required|min:2|alpha',
-            'email'=>'required|email',
+            'first_name' => 'required|min:2|alpha',
+            'last_name'  => 'required|min:2|alpha',
+            'email'      => 'required|email',
         ]);
         if($validator->fails()){
             return response()->json($validator->errors());
         }
         else {
             $user=User::find($request->user()->id);
-                $user->first_name=$request->first_name;
-                $user->last_name=$request->last_name;
-                $user->email=$request->email;
+                $user->first_name = $request->first_name;
+                $user->last_name  = $request->last_name;
+                $user->email      = $request->email;
                 $user->update();
             return response()->json([
-                'message'=>"profile updated successfully",
-                'updatedprofile'=>$user
+                'message'        => "Profile Updated Successfully",
+                'updatedprofile' => $user
             ]);
         }
      }
+    
+     /* Function For ChangePassword */
+
      public function changepassword(Request $request) {
      $validator=Validator::make($request->all(),[
-        'old_password'=>'required',
-        'new_password'=>'required',
-        'confirm_password'=>'required|same:new_password',
+        'old_password'     => 'required',
+        'new_password'     => 'required',
+        'confirm_password' => 'required|same:new_password',
 
     ]);
     if($validator->fails()){
@@ -120,27 +138,29 @@ class JWTController extends Controller
                'password'=>Hash::make($request->new_password)
            ]);
            return response()->json([
-            'message'=>"password successfully updated",
-            'status'=>1
+            'message' => "Password Successfully Updated",
+            'status'  => 1
             ],200);
         }
        else{
             return response()->json([
-                'message'=>"old password does not match",
+                'message'=>"Old Password does not Match.",
             ],400);
        }
     }
     return response()->json([
-        'message'=>"password successfully updated",
-        'status'=>1
+        'message'  => "Password Successfully Updated",
+        'status'   => 1
     ]);
 }
-public function configration()
-{
-    $configration=configration::all();
-    return response()->json($configration);
 
-}
+    /* Function For Configrations */
+    public function configration()
+    {
+        $configration=configration::all();
+        return response()->json($configration);
+
+    }
 
 }
 

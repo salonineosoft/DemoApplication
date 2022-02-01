@@ -31,8 +31,7 @@ class adminRegister extends Mailable
         $data=$this->data;
         return $this->from('example@example.com', 'Example')
                 ->view('Mail.adminRegister')->with([
-                    'name' => $data['first_name']." ".$data['last_name'],
-                    
+                    'name'  => $data['first_name']." ".$data['last_name'],           
                     'email' => $data['email']
                 ]);
     }

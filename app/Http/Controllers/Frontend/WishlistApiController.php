@@ -33,6 +33,18 @@ class WishlistApiController extends Controller
      */
     public function store(Request $request)
     {
+        $products = wishlist::where("user_email",$request->user_email)->get();
+        $flag = 0;
+        foreach($products as $i){
+            if($i->product_id == $request->product_id){
+                $flag = 1;
+                break;
+            }
+        }
+        if ($flag != 0) {
+            return response()->json(["message" => "Already Added."]);
+        } 
+        else{
         $data=wishlist::insert([
             "user_email"    => $request->user_email,
             "product_id"    => $request->product_id,
@@ -40,7 +52,8 @@ class WishlistApiController extends Controller
             "product_price" => $request->product_price,
             "product_name"  => $request->product_name,
         ]);
-        return response()->json(["data"=>$data,"message"=>"sucess"]);
+        return response()->json(["data"=>$data,"message"=>"Sucess"]);
+    }
     }
 
     /**
@@ -53,7 +66,7 @@ class WishlistApiController extends Controller
     {
         $wish=wishlist::find($id)->delete();
     
-        return response()->json(["data"=>$wish,"message"=>"delete sucess"]);
+        return response()->json(["data"=>$wish,"message"=>"Delete Sucess"]);
 
     }
 }

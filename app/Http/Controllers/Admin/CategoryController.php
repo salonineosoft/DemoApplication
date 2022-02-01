@@ -15,8 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = category::paginate(5);
-      
+        $data = category::paginate(5); 
         return view('Admin.CategoryManagement.ShowCategory', compact('data'));
        
     }
@@ -61,10 +60,10 @@ class CategoryController extends Controller
                 
                 /*save data*/
                 $data->save();
-                return back()->with('msg','Successfully inserted');
+                return redirect('/categories')->with('msg','Successfully Inserted.');
             }
         } catch (Exception $e) {  
-            return back()->with('error','something went wrong');
+            return back()->with('error','Something went wrong');
         } 
     }
 
@@ -102,10 +101,10 @@ class CategoryController extends Controller
                     'description' => $request->description,
                     'status'      => $request->status
                 ]);
-                return back()->with('msg','successfully updated data');
+                return redirect('/categories')->with('msg','successfully Updated Data.');
             } 
         } catch(Exception $e) {  
-            return back()->with('error','something went wrong');
+            return back()->with('error','Something went wrong');
         } 
        
     }

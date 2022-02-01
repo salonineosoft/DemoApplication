@@ -42,12 +42,6 @@ class HomeController extends Controller
            return $data;
         }
         return 0; 
-       // return view('dashboard');
-        // if(Auth::User()->role_id==2){
-        //     return view('dashboard');
-        // }
-        // elseif(Auth::User()->role_id==1){
-        //     return "sjdgsudgus";
     }
      
 

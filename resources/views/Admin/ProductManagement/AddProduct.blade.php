@@ -23,6 +23,9 @@
             @if(Session::has('msg'))
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
+            @if(Session::has('errormsg'))
+                <label class="alert alert-danger col-9 mx-auto">{{Session::get('errormsg')}}</label>
+            @endif
             @if($errors->has('category'))
                 <div class="alert alert-danger col-9 mx-auto">{{$errors->first('category')}}</div>
             @endif
@@ -89,6 +92,7 @@
             </div>
             </form>
     </div>
+</div>
 </div>
 @endsection 
 

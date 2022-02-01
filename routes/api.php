@@ -13,6 +13,10 @@ use App\Http\Controllers\Frontend\orderDetailController;
 use App\Http\Controllers\Frontend\CmsApiController;
 use App\Http\Controllers\Frontend\WishlistApiController;
 use App\Http\Controllers\Frontend\CouponApiController;
+
+use App\Http\Controllers\Frontend\NewsLetterController;
+
+
 use App\Models\Configration;
 
 /*
@@ -39,7 +43,9 @@ Route::post('/updateprofile',[JWTController::class,'updateProfile']);
 Route::post('/changepassword',[JWTController::class,'changepassword']);
 Route::get('/Configration',[ConfigrationController::class,'configration']);
 
+
 });
+Route::post('/NewsLetter',[NewsLetterController::class,'PostNewsLetter']);
 Route::apiResource('/contact', ContactUsController::class)->except('create','show','edit','update','destroy');
 Route::apiResource('/banners', BannerApiController::class)->except('create','store','show','edit','update','destroy');
 Route::apiResource('/category', CategoryApiController::class)->except('create','store','edit','update','destroy');

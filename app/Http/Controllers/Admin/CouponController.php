@@ -57,7 +57,7 @@ class CouponController extends Controller
                 $data->value  = $value;
                 $data->status = $status;
                 $data->save(); 
-                return back()->with('msg','successfully added'); 
+                return redirect('/coupons')->with('msg','successfully added'); 
             }
         } catch (Exception $e) {
             return back()->with('err','Something went wrong');
@@ -100,7 +100,7 @@ class CouponController extends Controller
                     'status' => $request->status,
                     'type'   => $request->type
                 ]);
-                return back()->with('msg',' Coupon code successfully updateded.');
+                return redirect('/coupons')->with('msg',' Coupon code successfully updateded.');
             }
         } catch (Exception $e) {
             return back()->with('err','Something went wrong.');

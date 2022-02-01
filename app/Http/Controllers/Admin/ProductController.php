@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $data = category::all();
+        $data = category::where("status","active")->get();
         return view("Admin.ProductManagement.AddProduct", compact('data'));
     }
 
@@ -50,7 +50,6 @@ class ProductController extends Controller
                 'quantity'    => 'required|numeric',
                 'price'       => 'required|numeric',
                 'sale_price'  => 'required|numeric',
-                'status'      => 'required'
             ]);
 
             if ($validateProduct) {
@@ -92,10 +91,10 @@ class ProductController extends Controller
                     'category_id' => $request->category,
                     'product_id'  => $productInsertId,
                 ]);
-                return back()->with('msg','successfully inserted data');
+                return redirect('/products')->with('msg','Successfully Inserted data.');
             } 
         } catch(Exception $e) {
-            return back()->with('err','Something went wrong.');
+            return back()->with('errormsg','Something went wrong.');
         }  
        
     }  
@@ -125,44 +124,54 @@ class ProductController extends Controller
     public function update(Request $request,$id)
     {
         try{
-            $data = product::where('id',$request->uid)->update([
-                'name'         => $request->name,
-                'description'  => $request->description,
-                'quantity'     => $request->quantity,
-                'price'        => $request->price,
-                'sale_price'   => $request->sale_price,
-                'status'       => $request->status
+            $validateProduct = $request->validate([
+                'name'        => 'required',
+                'description' => 'required',
+                'quantity'    => 'required|numeric',
+                'price'       => 'required|numeric',
+                'sale_price'  => 'required|numeric',
             ]);
-            if($data){
-                product_attribute::where('product_id',$request->uid)->update([
-                'name'       => $request->name,
-                'price'      => $request->price,
-                'quantity'   => $request->quantity,
+
+            if ($validateProduct) {
+                $data = product::where('id',$request->uid)->update([
+                    'name'         => $request->name,
+                    'description'  => $request->description,
+                    'quantity'     => $request->quantity,
+                    'price'        => $request->price,
+                    'sale_price'   => $request->sale_price,
+                    'status'       => $request->status
                 ]);
-                product_category::where('product_id',$request->uid)->update([
-                    'category_id' => $request->category,
-                ]);
-                if($request->hasFile('image')) {
-                    $deleteImage = productImage::where('product_id',$request->uid)->get();
-                    foreach ($deleteImage as $i) {
-                        unlink("uploads/" .$i->image);
-                    }
-                    productImage::where('product_id',$request->uid)->delete();
-                    $images = $request->file('image');
-                    foreach ($images as $i) {
-                        $name = rand() . $i->getClientOriginalName();
-                        $i->move(public_path('uploads/'), $name);
-                        ProductImage::insert([
-                            'image'      => $name,
-                            'product_id' => $request->uid,
-                        ]);
-                    }
-                
-                }
-            }
-            return back()->with('msg','successfully updated data');
+                if($data){
+                    product_attribute::where('product_id',$request->uid)->update([
+                    'name'       => $request->name,
+                    'price'      => $request->price,
+                    'quantity'   => $request->quantity,
+                    ]);
+                    product_category::where('product_id',$request->uid)->update([
+                        'category_id' => $request->category,
+                    ]);
+                    if($request->hasFile('image')) {
+                        $deleteImage = productImage::where('product_id',$request->uid)->get();
+                        foreach ($deleteImage as $i) {
+                            unlink("uploads/" .$i->image);
+                        }
+                        productImage::where('product_id',$request->uid)->delete();
+                        $images = $request->file('image');
+                        foreach ($images as $i) {
+                            $name = rand() . $i->getClientOriginalName();
+                            $i->move(public_path('uploads/'), $name);
+                            ProductImage::insert([
+                                'image'      => $name,
+                                'product_id' => $request->uid,
+                            ]);
+                            return redirect('/products')->with('msg','successfully updated data');
+                        }                   
+                    } 
+                }  
+                return redirect('/products')->with('msg','successfully updated data');
+            }       
         } catch(Exception $e) {
-            return back()->with('err','Something went wrong.');
+           return back()->with('errormsg','Something went wrong.');
         }
     }
 

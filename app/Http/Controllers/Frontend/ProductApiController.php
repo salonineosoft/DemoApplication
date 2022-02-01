@@ -44,9 +44,6 @@ class ProductApiController extends Controller
      */
     public function show($id)
     {
-       // $details=productImage::join('products','products.id','=','product_images.product_id')->where('products.id',$id)->get();
-        //return response()->json(['details' => $details]);
-        
         $product = product::find($id);
         $images = $product->images;
         return response()->json(['product_price' => $product ,'product_image' => $images]);

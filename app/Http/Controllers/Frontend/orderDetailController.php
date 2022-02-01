@@ -20,12 +20,15 @@ class orderDetailController extends Controller
     public function store(Request $request)
     {
         $data=orderdetail::insert([
-            "user_email"  => $request->user_email,
-            "product_id"  => $request->product_id,
-            "price"       => $request->price,
-            "quantity"    => $request->quantity,
-            "image"       => $request->image,
-            "total"       => $request->total
+            "user_email"   => $request->user_email,
+            "product_id"   => $request->product_id,
+            "price"        => $request->price,
+            "quantity"     => $request->quantity,
+            "image"        => $request->image,
+            "product_name" => $request->product_name,
+            "status"       => "pending",
+            "payment_mode" => $request->payment_mode,
+            "total"        => $request->total
         ]);
 
          Mail::to($request->user_email)->send(new adminOrder($request->all()));

@@ -38,41 +38,32 @@ class CmsController extends Controller
     {
         try{
             $validate =   $request->validate([
-                'image'       => 'required|mimes:jpg,png,jpeg',
-                'title'       => 'required|max:100',
-                'body' =>     'required|max:100'
+                'image'  => 'required|mimes:jpg,png,jpeg',
+                'title'  => 'required|max:100',
+                'body'   => 'required|max:100'
             ]);
             if($validate) {
                 $title = $request->title;
                 $body = $request->body;
                 $filename="Image-".time().".".$request->image->extension();
                 if($request->image->move(public_path('uploads'),$filename)){
-                    $data              = new cms();
-            
-                    $data->title       = $title;
-                    $data->body        = $body;
-                    $data->image       = $filename;        
+                    $data         = new cms();
+
+                    /*save data*/
+                    $data->title  = $title;
+                    $data->body   = $body;
+                    $data->image  = $filename;        
                     $data->save();
-                    return back()->with('msg','successfully inserted data');
+                    return redirect('/cms')->with('msg','Successfully Inserted data.');
                 } else {
-                    return back()->with('err','something went wrong');
+                    return back()->with('err','Something went wrong');
                 }
             }
         } catch (Exception $e) {
-            return back()->with('err','something went wrong');
+            return back()->with('err','Something went wrong');
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -101,21 +92,21 @@ class CmsController extends Controller
                 $filename="Image-".time().".".$request->image->extension();
                 if ($request->image->move(public_path('uploads'),$filename)) {
                     $data= cms::where('id',$request->uid)->update([
-                        'title'       => $request->title,
-                        'body' => $request->body,
-                        'image'       => $filename
+                        'title'  => $request->title,
+                        'body'   => $request->body,
+                        'image'  => $filename
                     ]);
                 }
                 return redirect('/cms');
             } else {
                 $data= cms::where('id',$request->uid)->update([ 
-                    'title'       => $request->title,
-                    'body' => $request->body,
+                    'title' => $request->title,
+                    'body'  => $request->body,
                 ]);
             }
-            return back()->with('msg','successfully updated data'); 
+            return redirect('/cms')->with('msg','Successfully Updated data.'); 
         } catch(Exception $e) {  
-            return back()->with('error','something went wrong');
+            return back()->with('error','Something went wrong');
         } 
     }
     

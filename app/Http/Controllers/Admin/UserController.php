@@ -68,7 +68,7 @@ class UserController extends Controller
                 $data->role_id    = $role;
                 $data->status     = $status;
                 $data->save();
-                return back()->with('msg','successfully inserted data');
+                return redirect('/users')->with('msg','successfully inserted data');
             } 
         } catch(Exception $e) {  
             return back()->with('error','something went wrong');
@@ -111,10 +111,10 @@ class UserController extends Controller
                         'email'      => $request->email,
                         'status'     => $request->status
                     ]);
-                    return back()->with('msg','successfully updated data');
+                    return redirect('/users')->with('msg','Successfully Updated data.');
                 }
             } catch(Exception $e) {
-                return back()->with('err','something went wrong');
+                return back()->with('error','Something went wrong');
             }
         
     }

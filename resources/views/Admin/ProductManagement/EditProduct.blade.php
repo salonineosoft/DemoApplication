@@ -24,6 +24,9 @@
             @if(Session::has('msg'))
                 <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
             @endif
+            @if(Session::has('errormsg'))
+                <label class="alert alert-danger col-9 mx-auto">{{Session::get('errormsg')}}</label>
+            @endif
             <select class="form-control col-9 mx-auto" name="category">
                 <option value="">Category</option>
             @foreach($category as $i)

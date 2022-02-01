@@ -15,15 +15,6 @@ use Illuminate\Http\Request;
 class ContactUsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,7 +40,7 @@ class ContactUsController extends Controller
             ]);
             Mail::to($request->email)->send(new ContactToAdmin($request->all()));
             return response()->json([
-                'message'=>'contact create successfully',
+                'message'=>'Contact Create Successfully',
                 'contact'=>$contact
             ],201);
         }

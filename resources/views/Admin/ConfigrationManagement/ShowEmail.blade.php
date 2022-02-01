@@ -2,6 +2,9 @@
 @section('content1')
 <div class="bg-white">
 <div class="container">
+@if(Session::has('msg'))
+  <label class="alert alert-success col-9 mx-auto">{{Session::get('msg')}}</label>
+@endif
 <table class="table table-bordered">
   <thead>
     <tr>
